@@ -11,4 +11,5 @@
 
 //from main
 void print_arr(char *array, int size);
+
 char *alloc_with_chcek(unsigned int size);
