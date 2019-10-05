@@ -8,7 +8,7 @@ int* move_to_block_size(void* p_data){
 
 short is_free(void* p_memblock){
     //vraciam pointer na HEADER NIE NA DATA!
-    int size = *(move_to_block_size(p_memblock));
+    int size = *(int*)(p_memblock);
     if( size >= 0){
         return 1;
     }else
@@ -24,7 +24,7 @@ short is_free_haedar(void* p_memblock){
 }
 
 int get_size_from_header(void* memblock){
-    int *size = (int*)(memblock + sizeof(int));
+    int *size = (int*)(memblock);
     return *(size);
 }
 
@@ -34,7 +34,7 @@ void* find_my_previous(void* me){
     do {
         //int to_next = ;
         previous = aktual;
-        aktual = (int ) (aktual);
+        aktual = (void *) *(int*)(aktual + sizeof(int));
 
     } while (aktual != me);
 
