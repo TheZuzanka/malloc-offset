@@ -15,6 +15,7 @@ void *find_free_block(void *memory_list, unsigned int size) {
     void *best_adress = NULL;
     int best_size = INT_MAX;
     int aktual_size;
+    //TODO zaokruhlovanie na nasobky 4ky
 
     do {
         aktual_size = *((int *) (aktual));
@@ -71,8 +72,6 @@ void cut_memory(void *header, unsigned int requested_size) {
         //skratim blok a nastavim na alokovany
 
         new_block = header + sizeof(int) + (requested_size * sizeof(char));
-
-        //TODO predchadzajuci = co mi ukazuje na heaader?
 
         *((int*)(previous + sizeof(int))) = (int) new_block;                //previous->next = new
 

@@ -31,7 +31,6 @@ void cut_memory(void *header, unsigned int requested_size);
 
 //from memory_free.c
 int memory_free(void *valid_ptr);
-void merge_blocks(HEADER** p_header, HEADER** p_previous, HEADER** p_next);
 
 //from memory_check.c
 int memory_check(void *ptr);
@@ -43,5 +42,4 @@ void memory_init(void *ptr, unsigned int size);
 short is_free(void* p_memblock);
 short is_free_haedar(void* p_memblock);
 int get_size_from_header(void* memblock);
-int* move_to_block_size(void* p_data);      //vraciam pointer na size
 void* find_my_previous(void* me);

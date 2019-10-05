@@ -9,7 +9,7 @@ int memory_check(void *ptr) {
 
     void* starting_adress = (memory + 2* sizeof(int));
     int total_size = *((int*)(memory));
-    void* last_adress = (memory + total_size);
+    void* last_adress = (memory + total_size* sizeof(char));
 
 
     if ((ptr > starting_adress) && (ptr <=  last_adress) && !is_free(ptr)) {

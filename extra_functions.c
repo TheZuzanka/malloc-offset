@@ -2,10 +2,6 @@
 
 #include "header.h"
 
-int* move_to_block_size(void* p_data){
-        return (int*)(p_data - sizeof(int));
-}
-
 short is_free(void* p_memblock){
     //vraciam pointer na HEADER NIE NA DATA!
     int size = *(int*)(p_memblock);

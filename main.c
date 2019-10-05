@@ -5,7 +5,7 @@
 int main() {
     void* pole = malloc(MAX_MEMORY * sizeof(char));
     char* nines, *eights, *fives, *fours;
-    unsigned int size1 = 10, size2 = 30, size3 = 28, size4 = 3;
+    unsigned int size1 = 32, size2 = 16, size3 = 16, size4 = 12;
 
     memset(pole, 0, MAX_MEMORY * sizeof(char));
     printf("Pamat na zaciatku:\n");
@@ -36,11 +36,8 @@ int main() {
     printf("Pamat po alokaci tretieho pola:\n");
     print_arr(pole, MAX_MEMORY);
 
-    fours = alloc_with_chcek(size4);
-    for(int i = 0; i < size4; i++){
-        fours[i] = 4;
-    }
-    printf("Pamat po alokaci stvrteho pola:\n");
+    memory_free(nines);
+    printf("Pamat po dealokaci fives:\n");
     print_arr(pole, MAX_MEMORY);
 
     return 0;
