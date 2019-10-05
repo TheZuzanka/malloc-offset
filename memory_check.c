@@ -12,7 +12,7 @@ int memory_check(void *ptr) {
     void *last_adress = (memory + total_size * sizeof(char));
 
 
-    if ((ptr > starting_adress) && (ptr <= last_adress) && (*(int *) (ptr)) < 0) {
+    if ((ptr >= starting_adress) && (ptr <= last_adress) && (*(int *) (ptr)) < 0) {
         return 1;
         //zaporne cislo = zabrate (najvyssi bit 1) --> bolo alokovane & nebolo uvolnene
     } else {

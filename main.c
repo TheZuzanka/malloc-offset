@@ -36,8 +36,8 @@ int main() {
     printf("Pamat po alokaci tretieho pola:\n");
     print_arr(pole, MAX_MEMORY);
 
-    memory_free(fives);
-    printf("Pamat po dealokaci fives:\n");
+    memory_free(nines);
+    printf("Pamat po dealokaci nines:\n");
     print_arr(pole, MAX_MEMORY);
 
     fours = alloc_with_chcek(size4);
