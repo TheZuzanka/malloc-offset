@@ -17,9 +17,9 @@ void *find_free_block(void *memory_list, unsigned int size) {
     //TODO zaokruhlovanie na nasobky 4ky
 
     do {
-        aktual_size = *((int *) (aktual));
+        aktual_size = abs(*((int *) (aktual)));
         //ak je volny a velkost udana + SIZEOF(INT) je dostatocna (pointer na dalsi zrusim)
-        if (is_free_haedar(aktual) && (aktual_size + sizeof(int)) >= size) {
+        if (is_free_haedar(aktual) && (aktual_size) >= size) {
             aktual_size += sizeof(int);
 
             if (aktual_size < best_size) {
@@ -55,12 +55,13 @@ void cut_memory(void *header, unsigned int requested_size) {
 
     if (free_memory < 1) {
 
-        //nezmestia sa mi sem uz ziadne data, detekujem "zabrate" a neusekavam blok, lebo by ssa do neho potom nic nezmestilo
+        //nezmestia sa mi sem uz ziadne data, detekujem "zabrate" a neusekavam blok, lebo by sa do neho potom nic nezmestilo
         //TODO * -1 cez bitovy posun
         *((int *) (header + sizeof(int))) *= -1;
 
-        //new_block = header;
+        //previous->next = header->next;
         *((int *) (previous + sizeof(int))) = *(int *) (header + sizeof(int));
+
     } else {
         *(int *) (header) = (requested_size * (-1));
         //skratim blok a nastavim na alokovany

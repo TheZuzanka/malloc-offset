@@ -10,9 +10,10 @@ int memory_check(void *ptr) {
     void *starting_adress = (memory + 2 * sizeof(int));
     int total_size = *((int *) (memory));
     void *last_adress = (memory + total_size * sizeof(char));
+    void* to_header = ptr - sizeof(int);
 
-
-    if ((ptr >= starting_adress) && (ptr <= last_adress) && (*(int *) (ptr)) < 0) {
+    int test = (*(int *) (ptr - sizeof(int)));
+    if ((to_header >= starting_adress) && (to_header <= last_adress) && (*(int *) (to_header)) < 0) {
         return 1;
         //zaporne cislo = zabrate (najvyssi bit 1) --> bolo alokovane & nebolo uvolnene
     } else {

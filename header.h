@@ -11,18 +11,6 @@
 
 void *memory;
 
-//cyklicky linked list nepotrebuje referenciu na predchadzajuceho
-typedef struct header {
-    int size;
-    struct header *next;
-} HEADER;
-
-typedef struct initial_block {
-    HEADER *first_blok;
-    void *end;
-} INITIAL_BLOCK;
-
-
 //from memory_alloc.c
 void *memory_alloc(unsigned int size);
 

@@ -5,13 +5,13 @@
 int memory_free(void *valid_ptr) {
 
     void *to_header = (valid_ptr - sizeof(int));
-    if (memory_check(to_header) == 0) {
+    if (memory_check(valid_ptr) == 0) {
         return 1;
     }
 
     int size = abs(*(int *) (to_header));
-    *((int *) (to_header)) = size;                //pridam pointer na dalsi blok, musim ubrat z pamate na data
-    //aktualne je size velkost pre data ssize-sizeof(int) ale ak si niek vypýta tuto pamat, pointer uz nebude treba
+    (*((int *) (to_header))) = size;                //pridam pointer na dalsi blok, musim ubrat z pamate na data
+    //aktualne je size velkost pre data size-sizeof(int) ale ak si niekto vypýta tuto pamat, pointer uz nebude treba
 
 
     for (int i = sizeof(int); i <= size - sizeof(int); i++) {
@@ -40,6 +40,7 @@ void find_my_place(void *me) {
                 *(int *) (first + sizeof(int)) = (int) me;     //first->next = me
                 *(int *) (me + sizeof(int)) = (int) first;
             }
+            *(int*)(me) *= (-1);
         };
 
         if (me > aktual && me < (void *) *(int *) (aktual + sizeof(int))) {
@@ -48,6 +49,8 @@ void find_my_place(void *me) {
             *(int *) (me + sizeof(int)) = *(int *) (aktual + sizeof(int));
             //aktual->next = me
             *(int *) (aktual + sizeof(int)) = (int) me;
+            *(int*)(me) *= (-1);
+            int test = *(int*)(me);
 
             break;
         } else {
@@ -62,14 +65,14 @@ void find_my_place(void *me) {
 void merge_blocks(void *me) {
     void  *previous = find_my_previous(me);
 
-    void *requested_adress_prev = ( (previous + sizeof(int) +  (*(int *) (previous)) * sizeof(char))  );
-    void *requested_adress_next = ( (me + sizeof(int) +  (*(int *) (me)) * sizeof(char))  );
+    void *requested_adress_prev = ( (previous + sizeof(int) +  abs((*(int *) (previous))) * sizeof(char))  );
+    void *requested_adress_next = ( (me + sizeof(int) +  abs((*(int *) (me))) * sizeof(char))  );
 
     if(*(int*)(me + sizeof(int)) == (int) requested_adress_next){
         void* next = (void *) *(int*)(me + sizeof(int));
-        int total_size_of_next = sizeof(int) + (*(int*)(next));
+        int total_size_of_next = sizeof(int) + abs((*(int*)(next)));
 
-        int test = *(int*)(me) + total_size_of_next;
+        int test = abs(*(int*)(me)) + total_size_of_next + sizeof(int);
         *(int*)(me) = test;                                  //size = size_me + total_size_of_next
         *(int*)(me + sizeof(int)) = *(int*)(next + sizeof(int));            //me->next = next->next
 
@@ -79,8 +82,8 @@ void merge_blocks(void *me) {
     }
 
     if( me == requested_adress_prev ){
-        int total_size_of_me = sizeof(int) + (*(int*)(me));
-        *(int*)(previous) += total_size_of_me;                              //size = size1 + size2 + (hlavicka) --> uz ju nepotrebujem
+        int total_size_of_me = sizeof(int) + abs((*(int*)(me)));
+        *(int*)(previous) += total_size_of_me + sizeof(int);                //size = size1 + size2 + (hlavicka) --> uz ju nepotrebujem
         *(int*)(previous + sizeof(int)) = *(int*)(me + sizeof(int));        //previous->next = me->next
 
         for(int i = 0; i <= 2*sizeof(int); i++){

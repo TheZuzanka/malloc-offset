@@ -11,8 +11,8 @@ short is_free_haedar(void *p_memblock) {
 }
 
 int get_size_from_header(void *memblock) {
-    int *size = (int *) (memblock);
-    return *(size);
+    int size = abs(*(int *)(memblock));
+    return size;
 }
 
 void *find_my_previous(void *me) {
