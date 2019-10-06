@@ -10,7 +10,8 @@ int memory_free(void *valid_ptr) {
     }
 
     int size = abs(*(int *) (to_header));
-    *((int *) (to_header)) = size - sizeof(int);                //pridam pointer na dalsi blok, musim ubrat z pamate na data
+    *((int *) (to_header)) = size;                //pridam pointer na dalsi blok, musim ubrat z pamate na data
+    //aktualne je size velkost pre data ssize-sizeof(int) ale ak si niek vypýta tuto pamat, pointer uz nebude treba
 
 
     for (int i = sizeof(int); i <= size - sizeof(int); i++) {
