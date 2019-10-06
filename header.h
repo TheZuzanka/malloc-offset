@@ -35,6 +35,8 @@ int memory_free(void *valid_ptr);
 
 void find_my_place(void *me);
 
+void merge_blocks(void *me);
+
 //from memory_check.c
 int memory_check(void *ptr);
 

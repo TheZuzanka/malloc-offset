@@ -19,12 +19,13 @@ int memory_free(void *valid_ptr) {
     }
 
     find_my_place(to_header);
+    merge_blocks(to_header);
     return 0;
 }
 
 void find_my_place(void *me) {
     void *first = (void *) *(int *) (memory + sizeof(int));
-    void *aktual = me;
+    void *aktual = first;
 
     do {
         void *m = (void *) *(int *) (memory + sizeof(int));   //adresa kam ukazuje memory[1]
@@ -59,16 +60,31 @@ void find_my_place(void *me) {
 
 //TODO toto bude sranda - spajanie blokov
 void merge_blocks(void *me) {
-    void *next, *previous;
-    void *aktual = me, *first = me;
+    void  *previous = find_my_previous(me);
 
-    //prejdem cely zoznam volnych blokov a zistitm ci susedi s nejakym volnym
+    void *requested_adress_prev = ( (previous + sizeof(int) +  (*(int *) (previous)) * sizeof(char))  );
+    void *requested_adress_next = ( (me + sizeof(int) +  (*(int *) (me)) * sizeof(char))  );
 
-    do {
-        int aktual_size = *(int *) (aktual);
-        void *requeted_adress = (aktual + sizeof(int) + aktual_size * sizeof(char));
-        //if( requeted_adress ==  )
+    if(*(int*)(me + sizeof(int)) == (int) requested_adress_next){
+        void* next = (void *) *(int*)(me + sizeof(int));
+        int total_size_of_next = sizeof(int) + (*(int*)(next));
 
-        aktual = (void *) *(int *) (aktual + sizeof(int));
-    } while (aktual != first);
+        int test = *(int*)(me) + total_size_of_next;
+        *(int*)(me) = test;                                  //size = size_me + total_size_of_next
+        *(int*)(me + sizeof(int)) = *(int*)(next + sizeof(int));            //me->next = next->next
+
+        for(int i = 0; i <= 2*sizeof(int); i++){
+            *(int*)(next + i) = 0;
+        }
+    }
+
+    if( me == requested_adress_prev ){
+        int total_size_of_me = sizeof(int) + (*(int*)(me));
+        *(int*)(previous) += total_size_of_me;                              //size = size1 + size2 + (hlavicka) --> uz ju nepotrebujem
+        *(int*)(previous + sizeof(int)) = *(int*)(me + sizeof(int));        //previous->next = me->next
+
+        for(int i = 0; i <= 2*sizeof(int); i++){
+            *(int*)(me + i) = 0;
+        }
+    }
 }
